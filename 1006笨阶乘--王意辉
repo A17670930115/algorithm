@@ -1,0 +1,13 @@
+int clumsy(int N){
+	long long rate = N,ans = 0;
+	int pot = 0;
+	for(int i = N - 1;i >= 1;i--){
+		if(pot == 0){rate *= i}
+		if(pot == 1){rate /= i}
+		if(pot == 2){ans += rate + i; rate = 0;}
+		if(pot == 3) rate = -i;
+		pot = (pot + 1)%4;
+	}
+	ans += rate;
+	return ans;	
+}
