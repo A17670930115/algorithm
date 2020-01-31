@@ -1,0 +1,38 @@
+class Solution {
+public:
+    string decodeString(string s) {
+        string ans = "";
+        stack<int> snum;    //记录'['之前的数字
+        stack<string> sstr; //记录'['之前的字符串运算结果
+        int num = 0;
+        for(int i = 0; i < s.size(); i++){
+            //记录多位数
+            while(s[i] >= '0' && s[i] <= '9'){
+                num =  num * 10 +(s[i] - '0');
+                i++;
+            }
+            // 遇到 '[' 时，将之前的字符和数字都压栈，并将其设为初值
+            if(s[i] == '['){
+                snum.push(num);
+                sstr.push(ans);
+                num = 0;
+                ans = "";
+            }
+            //遇到']'时，将两个栈的栈顶元素弹出，在栈顶字符串后连接k个当前的ans，弹出字符串栈顶元素并更新ans
+            else if(s[i] == ']'){
+                int k = snum.top();//重复k次
+                snum.pop();
+                for(int i = 0; i < k; i++){
+                    sstr.top() += ans;
+               }
+                ans = sstr.top();//更新ans
+                sstr.pop();//字符栈栈顶元素出栈
+            }
+            //将字符添加到ans
+            else{
+                ans += s[i];
+            }
+        }
+        return ans;
+    }
+};
